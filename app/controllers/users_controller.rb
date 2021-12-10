@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   def index
-    render json:{Hello:"Welcome to Tanda Express"}
+    render json:{Hello:"Welcome to SushMe"}
   end
 
   def show
