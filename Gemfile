@@ -40,3 +40,15 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+#Figaro for ENV keys
+gem "figaro" 
+
+# Email service
+gem 'sendgrid-ruby'
+
+# Testing tool
+gem 'rspec-rails', '~> 5.0.0'
+
+# Testing - create fake models 
+gem 'factory_bot_rails'
