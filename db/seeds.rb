@@ -10,3 +10,12 @@
   User.create(username:"user1",email:"test@gmail.com",password:"123456",password_confirmation:"123456")
   User.create(username:"user2",email:"test2@gmail.com",password:"123456",password_confirmation:"123456")
 end
+
+if Category.count == 0
+  Category.create(name:'Hot Roll')
+end
+
+if Product.count == 0
+  Product.create(title:'Cake', description:'Chocolate cake', price:150, stat
+us:'Available', category_id:1)
+end

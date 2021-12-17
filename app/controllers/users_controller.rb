@@ -17,17 +17,17 @@ class UsersController < ApplicationController
     @user = User.create(user_params)
     if @user.save
       auth_token = Knock::AuthToken.new payload: {sub: @user.id}
-      #UserNotifierMailer.welcome(@user).deliver
+      UserNotifierMailer.welcome(@user).deliver
       render json:{username: @user.username, jwt:auth_token.token, user_id:@user.id}, status: 200
     else
-      render json:{errors:"Email has already been taken"}
+      render json:{errors:"Email has already been taken!"}
     end  
   end 
 
   def sign_in 
     @user = User.find_by_email(params[:email])
     if @user && @user.authenticate(params[:password])
-      auth_token = Knock::AuthToken.new payload: {sub: @user.id} 
+      auth_token = Knock::AuthToken.new payload: {sub: @user.id}
       render json:{username: @user.username, jwt:auth_token.token, user_id:@user.id} , status: 200
     else
       render json:{errors:"Email or password incorrect"}
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
       @token = SecureRandom.hex(13)
       @user.token = @token
       @user.save
-      #UserNotifierMailer.forgot_pass(@user, @token).deliver
+      UserNotifierMailer.forgot_pass(@user, @token).deliver
       render json:{success:"We have sent you an email with the steps to reset your password"}, status: 200
     else
       render json:{errors:"Email invalid"}
