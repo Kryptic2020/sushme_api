@@ -16,6 +16,5 @@ if Category.count == 0
 end
 
 if Product.count == 0
-  Product.create(title:'Cake', description:'Chocolate cake', price:150, stat
-us:'Available', category_id:1)
+  Product.create(title:'Cake', description:'Chocolate cake', price:150,status:'Available', category_id:1)
 end
