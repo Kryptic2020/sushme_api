@@ -2,18 +2,27 @@ class ProductsController < ApplicationController
 
 
   def index
-    @products = Product.all
+    #@products = Product.all
+    @products = Product.all.map do |product|
+           product_json = product.as_json
+           product_json[:picture] = product.picture.url.as_json
+           product_json
+         end
     if @products
-     render json: @products, status: 201
+    render json: { products: @products }, status: 201
+     #render json: @products, status: 201
     else  
       render json:{error: "Products not found"}, status: 404
     end
   end
 
   def show
-     @product = Product.find_by_id(params[:id])
-     if @product
-     render json: @product, status: 201
+    @product = Product.find_by_id(params[:id])
+    if @product
+      picture = @product.picture.url
+      @product = @product.as_json
+      @product[:picture] = picture.as_json
+      render json: { product: @product }, status: 201
     else  
       render json:{error: "Product could not be found"}
     end
@@ -29,6 +38,7 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.create(product_params)
+    @product.save
      if @product
      render json: @product, status: 201
     else  
@@ -43,7 +53,11 @@ class ProductsController < ApplicationController
     @product.status = params[:status]
     @product.category_id = params[:category_id]
     @product.price = params[:price]
+    if params[:picture]
+      @product.picture = params[:picture]
+    end  
     @product.save
+
     if @product
       render json:{msg:"Product successfuly updated"}, status: 200 
     else 
@@ -55,6 +69,6 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:title,:description,:status,:category_id, :id, :price)
+    params.permit(:title,:description,:status,:category_id, :id, :price, :picture)
   end
 end
