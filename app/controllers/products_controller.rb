@@ -2,15 +2,30 @@ class ProductsController < ApplicationController
 
 
   def index
-    #@products = Product.all
     @products = Product.all.map do |product|
-           product_json = product.as_json
-           product_json[:picture] = product.picture.url.as_json
-           product_json
-         end
+      product_json = product.as_json
+      product_json[:picture] = product.picture.url.as_json
+      product_json[:category] = product.category.name
+      product_json
+    end
     if @products
     render json: { products: @products }, status: 201
-     #render json: @products, status: 201
+    else  
+      render json:{error: "Products not found"}, status: 404
+    end
+  end
+
+  def top_seller
+    @products = Product.all.map do |product|
+      if product.category.name === 'Top Seller'
+        product_json = product.as_json
+        product_json[:picture] = product.picture.url.as_json
+        product_json[:category] = product.category.name
+        product_json
+      end
+    end
+    if @products
+    render json: { products: @products }, status: 201
     else  
       render json:{error: "Products not found"}, status: 404
     end
