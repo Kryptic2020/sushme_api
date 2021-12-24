@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   scope '/api' do
     scope '/products' do
       get '/index', to: "products#index"
+      get '/top-seller', to: "products#top_seller"
       get '/show/:id', to: "products#show"
       delete '/:id', to: "products#destroy"
       post '/create', to: "products#create"
