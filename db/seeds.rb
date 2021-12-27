@@ -18,3 +18,11 @@ end
 if Product.count == 0
   Product.create(title:'Cake', description:'Chocolate cake', price:150,status:'Available', category_id:1)
 end
+
+if Table.count == 0
+  Table.create(reference:'QR1')
+end
+
+if Status.count == 0
+  Status.create(status:'Available')
+end
