@@ -68,6 +68,7 @@ class ProductsController < ApplicationController
     @product.status = params[:status]
     @product.category_id = params[:category_id]
     @product.price = params[:price]
+    @product.quantity = params[:quantity]
     if params[:picture]
       @product.picture = params[:picture]
     end  
@@ -84,6 +85,6 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.permit(:title,:description,:status,:category_id, :id, :price, :picture)
+    params.permit(:title,:description,:status,:category_id, :id, :price, :picture,:quantity)
   end
 end

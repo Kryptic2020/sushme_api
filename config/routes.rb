@@ -29,6 +29,12 @@ Rails.application.routes.draw do
       post "/forgot-pass", to: "users#forgot_pass"
       post "/reset-pass", to: "users#reset_pass"
     end
+    scope '/order-item' do
+      get '/:id', to: 'order_item#show'
+    end
+    scope '/basket' do
+      get '/:id', to: 'order#show'
+    end
 
   end
 end
