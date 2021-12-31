@@ -59,7 +59,8 @@ class PaymentController < ApplicationController
           user_id:@staff.id
         }
       },
-      success_url: "http://localhost:3001/receipt/#{@order.id}",
+      #success_url: "http://localhost:3001/receipt/#{@order.id}",
+      success_url: "https://sushme-api.herokuapp.com/receipt/#{@order.id}",
       cancel_url: "http://localhost:3001/failed/#{@order.id}"
     )
     render json:{session:session.id} 
