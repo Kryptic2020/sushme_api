@@ -19,5 +19,15 @@ class UserNotifierMailer < ApplicationMailer
     @url  = 'https://sushme.netlify.app/'
     mail(to: @user.email, subject: 'Welcome to SushMe')
   end
+
+  # send a signup email to the user, pass in the user object that contains the user's email address
+  def receipt_email(customer, receipt, order)
+    @customer = customer
+    @receipt = receipt
+    @order = order
+    @url  = 'https://sushme.netlify.app/'
+    mail( :to => @customer.email,
+    :subject => 'Thanks for shopping at our amazing app' )
+  end
  
 end

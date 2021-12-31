@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "users#index" 
   #get "/", to: "users#index", as:"index"
+  get '/payment/webhook'
+  post "/payment/webhook", to: "payment#webhook"
+  get 'payment/success', to: 'payment#success'
+
   scope '/api' do
     scope '/products' do
       get '/index', to: "products#index"
@@ -32,8 +36,16 @@ Rails.application.routes.draw do
     scope '/order-item' do
       get '/:id', to: 'order_item#show'
     end
-    scope '/basket' do
+    scope '/order' do      
+      get '/index', to: 'order#index'
+      delete '/:id', to: 'order#destroy'
       get '/:id', to: 'order#show'
+    end
+    scope '/payment' do
+      post '/order', to: 'payment#order'
+      get '/success', to: 'payment#success'
+      get '/receipt/:id', to: 'payment#receipt'
+      get '/failed', to: 'payment#failed'
     end
 
   end

@@ -13,10 +13,16 @@ end
 
 if Category.count == 0
   Category.create(name:'Hot Roll')
+  Category.create(name:'Temaki')
+  Category.create(name:'Salad')
+  Category.create(name:'Drinks')
+  Category.create(name:'Desert')
+  Category.create(name:'Others')
+  Category.create(name:'Top Seller')
 end
 
 if Product.count == 0
-  Product.create(title:'Cake', description:'Chocolate cake', price:150,status:'Available', category_id:1)
+  Product.create(title:'Cake', quantity:100, description:'Chocolate cake', price:150,status:'Available', category_id:1)
 end
 
 if Table.count == 0

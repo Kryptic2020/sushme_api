@@ -188,6 +188,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    stripe (5.42.0)
     thor (1.1.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -216,6 +217,7 @@ DEPENDENCIES
   rspec-rails (~> 5.0.0)
   sendgrid-ruby
   spring
+  stripe
   tzinfo-data
 
 RUBY VERSION
