@@ -26,9 +26,14 @@ if Product.count == 0
 end
 
 if Table.count == 0
-  Table.create(reference:'QR1')
+  Table.create(reference:'Online-Takeaway')
+  Table.create(reference:'2')
+  Table.create(reference:'3')
+  Table.create(reference:'4')
+  Table.create(reference:'5')
 end
 
 if Status.count == 0
-  Status.create(status:'Available')
+  Status.create(status:'Pending')
+  Status.create(status:'Confirmed')
 end

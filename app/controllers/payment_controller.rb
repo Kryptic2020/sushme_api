@@ -11,11 +11,19 @@ class PaymentController < ApplicationController
       @customer = Customer.create(customer_params)
     end
     @staff = User.last
-    status = Status.last
-    table = Table.last
+    status = Status.first
+    if params[:table_number]
+      table = Table.find_by_reference(params[:table_number])
+      isTakeAway = false
+      delivery_time = nil
+    else 
+      table = Table.first
+      isTakeAway = true
+      delivery_time = params[:pickupTime]
+    end  
     payment = Payment.create()
     #creating empty order
-    @order = Order.create(customer_id:@customer.id,user_id:@staff.id, status_id:status.id,table_id:table.id,payment_id:payment.id,isTakeAway:true,delivery_time:params[:pickupTime])
+    @order = Order.create(customer_id:@customer.id,user_id:@staff.id, status_id:status.id,table_id:table.id,payment_id:payment.id,isTakeAway:isTakeAway,delivery_time:delivery_time)
      @basket = params[:basket]
      #adding order items to order  
      @total_amount = 0
@@ -39,7 +47,11 @@ class PaymentController < ApplicationController
     a.product.description
     end 
     descriptions = descriptions.uniq().split(",").join(",")
-    
+    if Rails.env.production?
+       @sushme_url = 'https://sushme.netlify.app'
+    else
+       @sushme_url = 'http://localhost:3001'
+   end   
     # Creating stripe session    
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
@@ -60,7 +72,9 @@ class PaymentController < ApplicationController
         }
       },
       #success_url: "http://localhost:3001/receipt/#{@order.id}",
-      success_url: "https://sushme.netlify.app/receipt/#{@order.id}",
+      #success_url: "https://sushme.netlify.app/receipt/#{@order.id}",
+      success_url: "#{@sushme_url}/receipt/#{@order.id}",
+
       cancel_url: "https://sushme.netlify.app/payment-failed/#{@order.id}"
     )
     render json:{session:session.id} 
@@ -76,8 +90,10 @@ class PaymentController < ApplicationController
     receipt = Order.find_by_id(params[:id])
     if receipt
       receipt_json = receipt.as_json
+      receipt_json[:table] = receipt.table.reference.as_json
       receipt_json[:payment] = receipt.payment.receipt_url.as_json
       receipt_json[:customer] = receipt.customer.as_json
+
       #receipt_json[:receipt_url] = @receipt.payment.receipt_url.as_json
       #receipt_json[:email] = receipt.customer.email.as_json
       #receipt_json[:username] = receipt.customer.username.as_json
