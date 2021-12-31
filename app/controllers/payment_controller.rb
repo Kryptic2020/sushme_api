@@ -60,8 +60,8 @@ class PaymentController < ApplicationController
         }
       },
       #success_url: "http://localhost:3001/receipt/#{@order.id}",
-      success_url: "https://sushme-api.herokuapp.com/receipt/#{@order.id}",
-      cancel_url: "http://localhost:3001/failed/#{@order.id}"
+      success_url: "https://sushme.netlify.app/receipt/#{@order.id}",
+      cancel_url: "https://sushme.netlify.app/payment-failed/#{@order.id}"
     )
     render json:{session:session.id} 
     
